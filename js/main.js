@@ -14,14 +14,21 @@ var gdL3 = $('.dLi')[2];
 var gdL4 = $('.dLi')[3];
 var gdL0 = $('#dLabel')[0];
 
-var Popular =  "https://api.themoviedb.org/3/movie/popular?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
-var topRated = "https://api.themoviedb.org/3/movie/top_rated?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
-var Upcoming = "https://api.themoviedb.org/3/movie/upcoming?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
-var nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+// var Popular =  "https://api.themoviedb.org/3/movie/popular?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+// var topRated = "https://api.themoviedb.org/3/movie/top_rated?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+// var Upcoming = "https://api.themoviedb.org/3/movie/upcoming?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+// var nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+var url3 = "&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
+var Popular =  "https://api.themoviedb.org/3/movie/popular?page=";
+var topRated = "https://api.themoviedb.org/3/movie/top_rated?page=";
+var Upcoming = "https://api.themoviedb.org/3/movie/upcoming?page=";
+var nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?page=";
 
- var gJson = {  };
+ var gJson = {};
 //主页电影展示；
-function homeShow(gUrl){
+function homeShow(bbb){
+gUrl = bbb+pageBB+url3;
+
   var settings = {
     "async": true,
     "crossDomain": true,
@@ -59,8 +66,6 @@ function homeShow(gUrl){
 }
 
 function a(){
-  gNext.innerHTML =' ';
-  gPages.innerHTML = ' ';
   var kind = gsearchDescription.innerHTML;
   if(kind ==='Popular Movies'){
     homeShow(Popular);
@@ -74,17 +79,25 @@ function a(){
 }
 //page下一页
 gNew.onclick = function(){
-  pageBB +=1;
+  pageBB++;
+  gOld.className = 'old';
   if(pageBB == gJson.total_pages){
     gNew.className = 'new disabled';
+  }else if(pageBB > gJson.total_pages){
+    pageBB = gJson.total_pages;
+    return;
   }
   a();
 };
 //上一页
 gOld.onclick = function(){
-  pageBB -=1;
+  pageBB--;
+  gNew.className = 'new';
   if(pageBB ==1){
     gOld.className = 'old disabled';
+  }else if(pageBB<1){
+    pageBB =1;
+    return;
   }
   a();
 };
@@ -95,31 +108,35 @@ function init(){
 }
 
 gdL1.onclick = function (){
+  pageBB = 1;
+  gOld.className = 'old disabled';
   homeShow(topRated);
   gsearchDescription.innerHTML = 'Top Rated Movies';
   gdL0.innerHTML = 'Top Rated';
-  page = '1';
 };
 
 gdL2.onclick = function (){
+  pageBB = 1;
+  gOld.className = 'old disabled';
   homeShow(Upcoming);
   gsearchDescription.innerHTML = 'Upcoming Movies';
   gdL0.innerHTML = 'Upcoming';
-  page = '1';
 };
 
 gdL3.onclick = function (){
+  pageBB = 1;
+  gOld.className = 'old disabled';
   homeShow(nowPlaying);
   gsearchDescription.innerHTML = 'Now Playing Movies';
   gdL0.innerHTML = 'Now Playing';
-  page = '1';
 };
 
 gdL4.onclick = function (){
+  pageBB = 1;
+  gOld.className = 'old disabled';
   homeShow(Popular);
   gsearchDescription.innerHTML = 'Popular Movies';
   gdL0.innerHTML = 'Popular';
-  page = '1';
 };
 
 
