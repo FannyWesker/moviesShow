@@ -21,21 +21,21 @@
       <p class='webTitle'>MOVIES SHOW</p>
       <div class='mainBody'>
         <div class='bodyRow'>
-          <p class='searchDescription'>默认搜索选择后的描述</p>
+          <h3 class='searchDescription'>Popular Movies</h3>
           <div class='searchBox'>
             <input type='text' class='searchText' value='search a movie you like'/>
             <button class='searchButton'><i class='fa fa-search' aria-hidden='true'></i></button>
           </div>
           <div class='dropdown'>
             <button id='dLabel' type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                  排序
+              Popular
               <span class='caret'></span>
             </button>
             <ul class='dropdown-menu' role='menu' aria-labelledby='dLabel'>
-              <li>Popular</li>
-              <li>Top Rated</li>
-              <li>Upcoming</li>
-              <li>Now Playing</li>
+              <li class='dLi'>Top Rated</li>
+              <li class='dLi'>Upcoming</li>
+              <li class='dLi'>Now Playing</li>
+              <li class='dLi'>Popular</li>
             </ul>
           </div>
           </div>
@@ -50,21 +50,26 @@
             <!-- <div class='photo tu1'></div> -->
             <!-- <div class='photo tu'></div> -->
             <!-- <div class='photo tu1'></div> -->
+            <!-- <div class='photo tu'></div> -->
+            <!-- <div class='photo tu1'></div> -->
+            <!-- <div class='photo tu'></div> -->
+            <!-- <div class='photo tu1'></div> -->
+            <!-- <div class='photo tu'></div> -->
+            <!-- <div class='photo tu1'></div> -->
+            <!-- <div class='photo tu'></div> -->
+            <!-- <div class='photo tu1'></div> -->
+            <!-- <div class='photo tu'></div> -->
+            <!-- <div class='photo tu1'></div> -->
           </div>
           <div class='footer'>
-            <p class='pages'>共有几页(还需处理)</p>
-            <nav>
-              <ul class='pagination'>
-                <li><a href='#'>&laquo;</a></li>
-                <li><a href='#'>1</a></li>
-                <li><a href='#'>2</a></li>
-                <li><a href='#'>3</a></li>
-                <li><a href='#'>4</a></li>
-                <li><a href='#'>5</a></li>
-                <li><a href='#'>&raquo;</a></li>
+            <p class='pages'></p>
+            <nav class= 'navPage'>
+              <ul class='pager'>
+                <li class="old disabled"><a href="#">&larr; Older</a></li>
+                <li class="new"><a href="#">Newer &rarr;</a></li>
               </ul>
             </nav>
-        </div>
+          </div>
       </div>
     </div>
     <!--Our own js. -->
