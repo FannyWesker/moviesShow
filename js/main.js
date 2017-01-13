@@ -13,6 +13,8 @@ var gdL2 = $('.dLi')[1];
 var gdL3 = $('.dLi')[2];
 var gdL4 = $('.dLi')[3];
 var gdL0 = $('#dLabel')[0];
+var gsearchText = $('.searchText')[0];
+var gsearchButton = $('.searchButton')[0];
 
 // var Popular =  "https://api.themoviedb.org/3/movie/popular?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
 // var topRated = "https://api.themoviedb.org/3/movie/top_rated?page="+pageBB+"&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5";
@@ -24,10 +26,10 @@ var topRated = "https://api.themoviedb.org/3/movie/top_rated?page=";
 var Upcoming = "https://api.themoviedb.org/3/movie/upcoming?page=";
 var nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?page=";
 
- var gJson = {};
+var gJson = {};
 //主页电影展示；
-function homeShow(bbb){
-gUrl = bbb+pageBB+url3;
+function homeShow(bbb,aaa){
+  var gUrl = bbb+pageBB+aaa;
 
   var settings = {
     "async": true,
@@ -41,7 +43,7 @@ gUrl = bbb+pageBB+url3;
   $.ajax(settings).done(function (response) {
     gJson = response;
     var gLength = gJson.results.length;
-     var o='';
+    var o='';
     for(var i=0; i<gLength;i++){
       var SandD = gLength/2;
       if(SandD===0){
@@ -68,13 +70,15 @@ gUrl = bbb+pageBB+url3;
 function a(){
   var kind = gsearchDescription.innerHTML;
   if(kind ==='Popular Movies'){
-    homeShow(Popular);
+    homeShow(Popular,url3);
   }else if(kind === 'Top Rated Movies'){
     homeShow(topRated);
   }else if(kind === 'Upcoming Movies'){
-    homeShow(Upcoming);
+    homeShow(Upcoming,url3);
+  }else if(kind === 'Now Playing Movies'){
+    homeShow(nowPlaying,url3);
   }else{
-    homeShow(nowPlaying);
+    homeShow(searchButtonOne,searchButtonTwo);
   }
 }
 //page下一页
@@ -101,16 +105,17 @@ gOld.onclick = function(){
   }
   a();
 };
+
 //网页最初设定
 function init(){
   $('.dropdown-toggle').dropdown();
-  homeShow(Popular);
+  homeShow(Popular,url3);
 }
 
 gdL1.onclick = function (){
   pageBB = 1;
   gOld.className = 'old disabled';
-  homeShow(topRated);
+  homeShow(topRated,url3);
   gsearchDescription.innerHTML = 'Top Rated Movies';
   gdL0.innerHTML = 'Top Rated';
 };
@@ -118,7 +123,7 @@ gdL1.onclick = function (){
 gdL2.onclick = function (){
   pageBB = 1;
   gOld.className = 'old disabled';
-  homeShow(Upcoming);
+  homeShow(Upcoming,url3);
   gsearchDescription.innerHTML = 'Upcoming Movies';
   gdL0.innerHTML = 'Upcoming';
 };
@@ -126,7 +131,7 @@ gdL2.onclick = function (){
 gdL3.onclick = function (){
   pageBB = 1;
   gOld.className = 'old disabled';
-  homeShow(nowPlaying);
+  homeShow(nowPlaying,url3);
   gsearchDescription.innerHTML = 'Now Playing Movies';
   gdL0.innerHTML = 'Now Playing';
 };
@@ -134,9 +139,95 @@ gdL3.onclick = function (){
 gdL4.onclick = function (){
   pageBB = 1;
   gOld.className = 'old disabled';
-  homeShow(Popular);
+  homeShow(Popular,url3);
   gsearchDescription.innerHTML = 'Popular Movies';
   gdL0.innerHTML = 'Popular';
 };
 
+// serach
+var gsearchList = $('.dropTips')[0];
+function searchTips (){
+  var gJson2;
+  var gStips = '';
+  var gUrl2;
+  var gJL; 
+  var sText = gsearchText.value;
+  var re = /\s/;
+  sText =sText.replace(re,'%20');
+  if(gsearchText.value !==''){
+    gUrl2 = 'https://api.themoviedb.org/3/search/keyword?page=1&query=' + sText + '&api_key=0e560703f1a6fc9606d09b7037944dc5';
+    var settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": gUrl2,
+      "method": "GET",
+      "headers": {},
+      "data": "{}"
+    }
+
+    $.ajax(settings).done(function (response) {
+      gJson2 = response;
+      gJL = gJson2.total_results;
+      if(gJL>5){
+        gJL = 5;
+      }
+      for(var i=0;i<gJL;i++){
+        gStips += '<option class="tip" onclick="clickfunction()">'+gJson2.results[i].name+'</option>';
+      }
+      gsearchList.innerHTML = gStips ;
+    });   
+  } 
+}
+
+var timer;
+var onoff = true;
+gsearchText.onfocus= function (){
+  if(onoff){
+    this.value = '';
+    this.style.color = 'black';
+    onoff = false;
+  }
+  timer =window.setInterval('searchTips()',2000);
+};
+
+gsearchText.onblur = function(){
+  window.clearInterval(timer);
+  if(this.value === ''){
+    this.style.color = 'gray';
+    this.value = 'search a movie you like';
+    onoff = true;
+    $('.tip').remove();
+  }
+}
+
+var gOption = $('.option');
+clickfunction=function(){
+  var ev = ev||event;
+  var eT = ev.target;
+  gsearchText.value = eT.value;
+  $('.tip').remove();
+}
+for(var i=0; i<gOption.length; i++){
+  gOption[i].onclick = clickfunction;
+}
+// onclick button
+var AA;
+var searchButtonOne;
+var searchButtonTow;
+gsearchButton.onclick =function (){
+  $('.tip').remove();
+  $('.photo').remove();
+  pageBB = 1;
+  AA = gsearchText.value;
+  if(AA !=='search a movie you like'){
+    var re = /\s/;
+    AA = AA.replace(re,'%20');
+    searchButtonOne = 'https://api.themoviedb.org/3/search/movie?include_adult=false&page=';
+    searchButtonTwo = '&query='+AA+'&language=en-US&api_key=0e560703f1a6fc9606d09b7037944dc5';
+    homeShow(searchButtonOne,searchButtonTwo);
+    gsearchDescription.innerHTML = 'search results';
+
+  }
+  
+}
 
