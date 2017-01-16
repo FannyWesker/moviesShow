@@ -42,22 +42,28 @@ function homeShow(bbb,aaa){
 
   $.ajax(settings).done(function (response) {
     gJson = response;
+
     var gLength = gJson.results.length;
     var o='';
     for(var i=0; i<gLength;i++){
+      if(gJson.results[i].poster_path ==''){
+        gJson.results[i].poster_path = ''
+      }
       var SandD = gLength/2;
       if(SandD===0){
         o += "<div class='photo tu'><img class='home' src='https://image.tmdb.org/t/p/w342"
-          +gJson.results[i].poster_path +"'><div class='homeIofo'><h4>"
+          +gJson.results[i].poster_path+"'><div class='homeIofo'><h4>"
           +gJson.results[i].title+"</h4><p><i class='fa fa-star' aria-hidden='true'></i>"
           +gJson.results[i].vote_average+"</p><p><i class='fa fa-calendar' aria-hidden='true'></i>"
-          +gJson.results[i].release_date+"</p></div><a class='more'href='#'>More info...</a></div>";
+          +gJson.results[i].release_date+"</p></div><a class='more' href='https://www.google.com/search?hl=en&q=movie+passengers#hl=en&q=movie+"
+          +gJson.results[i].title.replace(/\s/,'+')+"' target='_blank'>More info...</a></div>";
       }else{
         o += "<div class='photo tu1'><img class='home' src='https://image.tmdb.org/t/p/w342"
           +gJson.results[i].poster_path+"'><div class='homeIofo'><h4>"
           +gJson.results[i].title+"</h4><p><i class='fa fa-star' aria-hidden='true'></i>"
           +gJson.results[i].vote_average+"</p><p><i class='fa fa-calendar' aria-hidden='true'></i>"
-          +gJson.results[i].release_date+"</p></div><a class='more'href='#'>More info...</a></div>";
+          +gJson.results[i].release_date+"</p></div><a class='more' href='https://www.google.com/search?hl=en&q=movie+passengers#hl=en&q=movie+"
+          +gJson.results[i].title.replace(/\s/,'+')+"' target='_blank'>More info...</a></div>";
       }
       SandD = '';
     }
@@ -230,4 +236,3 @@ gsearchButton.onclick =function (){
   }
   
 }
-
